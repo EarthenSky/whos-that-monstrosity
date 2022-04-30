@@ -50,6 +50,8 @@ for (let i = 0; i < 151; i++) {
 
 let s1, s2;
 let guess_btn;
+let list_done = false;
+let num_names_done = 0;
 
 async function preload() {
     gif_start = loadImage('res/who_that_pokemon_one.gif');
@@ -60,6 +62,7 @@ async function preload() {
     pDisplayListText = await pDisplayList.text();
     pDisplayListText.split("\n").forEach(pokemon_name => {
         pokemon_list.push(pokemon_name)
+        num_names_done += 1
     });
 
     plist = await fetch("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/src/python/data/pokemon.txt");
@@ -88,10 +91,6 @@ function setup() {
     s2.position(windowWidth - (windowWidth * GIF_SPACE) - SELECT_WIDTH , windowHeight*0.2);
     s1.size(SELECT_WIDTH, SELECT_HEIGHT);
     s2.size(SELECT_WIDTH, SELECT_HEIGHT);
-    pokemon_list.forEach( elem => {
-         s1.option(elem);
-         s2.option(elem);
-    })
 
     guess_btn = createButton("select guess");
     guess_btn.size(BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -104,6 +103,14 @@ function draw() {
     if (num_images_done == 151 && !done_startup) {
         done_startup = true;
         randomize_img();
+    }
+
+    if (num_names_done == 151 && !list_done) {
+        list_done = true;
+        pokemon_list.forEach( elem => {
+            s1.option(elem);
+            s2.option(elem);
+       })
     }
 
     switch(current_gif_state) {
