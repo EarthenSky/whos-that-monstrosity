@@ -41,7 +41,7 @@ function stitch_img(pkmn1, pkmn2) {
     let i;
     for (i = halfImage - width * 4; i < halfImage; i += 4) {
         let a = img1.pixels[i+3]; // alpha value
-        if (a > 145) {
+        if (a > 95) {
             if (current_run_len == 0) {
                 current_start_run = i - (halfImage - width * 4);
             }
@@ -78,7 +78,7 @@ function stitch_img(pkmn1, pkmn2) {
     let current_end_run_2 = -1;
     for (i = 0; i < width*4; i += 4) {
         let a = img2.pixels[i+halfImage+3];
-        if (a > 145) {
+        if (a > 95) {
             if (current_run_len_2 == 0) {
                 current_start_run_2 = i;
             }
@@ -223,7 +223,7 @@ function stitch_color(pkmn1, pkmn2, pkmncol1, pkmncol2) {
     let i;
     for (i = halfImage - width * 4; i < halfImage; i += 4) {
         let a = img1.pixels[i+3]; // alpha value
-        if (a > 145) {
+        if (a > 95) {
             if (current_run_len == 0) {
                 current_start_run = i - (halfImage - width * 4);
             }
@@ -260,7 +260,7 @@ function stitch_color(pkmn1, pkmn2, pkmncol1, pkmncol2) {
     let current_end_run_2 = -1;
     for (i = 0; i < width*4; i += 4) {
         let a = img2.pixels[i+halfImage+3];
-        if (a > 145) {
+        if (a > 95) {
             if (current_run_len_2 == 0) {
                 current_start_run_2 = i;
             }
