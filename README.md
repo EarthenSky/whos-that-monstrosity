@@ -1,6 +1,11 @@
 # who's-that-monstrosity
  a pokemon monstrosity guessing game
 
+### group name: team toy rocket
+- gabriel stang : gsa92@sfu.ca
+- Chang Yunc : changy@sfu.ca
+- michael owers : owers@sfu.ca
+
 # how to play:
 - go to https://whos-that-monstrosity.github.io/ 
 - guess the combination of two pokemon (top & bottom) by it's silhouette

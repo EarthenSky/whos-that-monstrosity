@@ -122,7 +122,7 @@ async function preload() {
         const i2 = i;
         pokemon_name = pokemon_name.replaceAll('%', '%25');
         pokemon_list_searchable.push(pokemon_name);
-        getBase64FromUrl("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/images/pkmn_outline/" + pokemon_name + ".png")
+        getBase64FromUrl("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/images/pkmn_outline_min/" + pokemon_name + "-min.png")
             .then(b64 => loadImage(b64, img => {
                 pokemon_image_list[i2] = img; 
                 num_images_done += 1;
