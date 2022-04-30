@@ -141,7 +141,7 @@ function setup() {
 
         if (pokemon_color_image_list[at] == null) {
             pokemon_color_image_list[at] = "empty";
-            getBase64FromUrl("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/images/pkmn_normal/" + pokemon_list_searchable[at] + ".png")
+            getBase64FromUrl("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/images/pkmn_min/" + pokemon_list_searchable[at] + "-min.png")
             .then(b64 => loadImage(b64, img => {
                 pokemon_color_image_list[at] = img; 
             }));
@@ -149,7 +149,7 @@ function setup() {
 
         if (pokemon_color_image_list[ab] == null) {
             pokemon_color_image_list[ab] = "empty";
-            getBase64FromUrl("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/images/pkmn_normal/" + pokemon_list_searchable[ab] + ".png")
+            getBase64FromUrl("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/images/pkmn_min/" + pokemon_list_searchable[ab] + "-min.png")
             .then(b64 => loadImage(b64, img => {
                 pokemon_color_image_list[ab] = img; 
             }));
