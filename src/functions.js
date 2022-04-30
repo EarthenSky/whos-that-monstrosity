@@ -172,7 +172,6 @@ function stitch_img(pkmn1, pkmn2) {
 
 
 function stitch_color(pkmn1, pkmn2, pkmncol1, pkmncol2) {
-    
     let img1 = createImage(pkmn1.width, pkmn1.height);
     let img2 = createImage(pkmn2.width, pkmn2.height);
     img1.copy(pkmn1, 0, 0, pkmn1.width, pkmn1.height, 0, 0, pkmn1.width, pkmn1.height);

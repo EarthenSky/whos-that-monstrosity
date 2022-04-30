@@ -208,7 +208,11 @@ function draw() {
             // draw image if it exists:
             if (guess_img != null) {
                 let guess_image_width = (windowWidth) - (windowWidth * GIF_SPACE);
+                tint(0, 95, 170); 
+                image(guess_img, guess_image_width + (guess_image_width * 0.1) - 5, windowHeight - (windowHeight * 0.8), (windowWidth * GIF_SPACE) * 0.4, windowHeight * 0.4); 
+                tint(255, 255, 255); 
                 image(guess_img, guess_image_width + (guess_image_width * 0.1), windowHeight - (windowHeight * 0.8), (windowWidth * GIF_SPACE) * 0.4, windowHeight * 0.4); 
+                
             }
             break;
         default:
@@ -221,14 +225,19 @@ function draw() {
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
     let select_width = windowWidth - (windowWidth * GIF_SPACE);
-    s1.position(select_width*0.20, windowHeight*0.7);
-    s2.position(select_width*0.55, windowHeight*0.7);
-    s1.size(select_width * 0.2, windowHeight * 0.05);
-    s2.size(select_width * 0.2, windowHeight * 0.05);
+    
+    if (s1 != null && s2 != null) {
+        s1.position(select_width*0.20, windowHeight*0.7);
+        s2.position(select_width*0.55, windowHeight*0.7);
+        s1.size(select_width * 0.2, windowHeight * 0.05);
+        s2.size(select_width * 0.2, windowHeight * 0.05);
+    }
+
     guess_btn.position((windowWidth - (windowWidth * GIF_SPACE)) / 2 - BUTTON_WIDTH / 2, windowHeight * 0.6);
     image(guess_img, windowWidth - (windowWidth * GIF_SPACE) + 40, windowHeight - (windowHeight * 0.8), 400, 400);
     pokedex.size(windowWidth - (windowWidth * GIF_SPACE), windowHeight);
     screen.position((windowWidth - (windowWidth * GIF_SPACE)) * 0.25, windowHeight * 0.3);
+
 }
 
 function process_guess() {
