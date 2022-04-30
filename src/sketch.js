@@ -73,6 +73,7 @@ let screen_container;
 let answer_container;
 let score = 0;
 let score_board;
+let beginning_sound;
 
 let loadColourImages = function() {
     const at = answerTop;
@@ -106,6 +107,8 @@ let onRelease = function() {
 
 async function preload() {
     betterrandinit();
+
+    beginning_sound = loadSound("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/Audio_partone_whosthatpokemon.mp3");
 
     gif_start = loadImage('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/who_that_pokemon_one.gif');
     gif_loop = loadImage('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/who_that_pokemon_two.gif');
@@ -223,6 +226,9 @@ function setup() {
     score_board.position(0, 0);
     score_board.style('font-family', 'monospace');
     score_board.style('font-size', '20pt');
+
+    
+    beginning_sound.play();
 }
 
 function draw() {
