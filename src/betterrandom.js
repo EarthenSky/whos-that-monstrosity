@@ -12,7 +12,7 @@
 // | Constants:                                                                                                |
 // -------------------------------------------------------------------------------------------------------------
 
-const MAX = Math.pow(2, 32);
+const thisMAX = Math.pow(2, 32);
 
 // -------------------------------------------------------------------------------------------------------------
 // | Fields:                                                                                                   |
@@ -25,7 +25,7 @@ var state;
 // -------------------------------------------------------------------------------------------------------------
 
 function betterrandinit(seed) {
-	this.state = seed == null ? Math.random() * PrngXorshift.MAX : seed;
+	this.state = seed == null ? Math.random() * thisMAX : seed;
 	this.generate();
 }
 
@@ -43,7 +43,7 @@ function betterrandnextInt(arg1, arg2) {
 function betterrandnextFloat() {
 	const x = this.state;
 	this.generate();
-	return x / PrngXorshift.MAX + 0.5;
+	return x / thisMAX + 0.5;
 }
 
 // -------------------------------------------------------------------------------------------------------------
