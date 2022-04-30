@@ -72,6 +72,7 @@ let container;
 let screen_container;
 let answer_container;
 let score = 0;
+let score_board;
 
 let loadColourImages = function() {
     const at = answerTop;
@@ -217,6 +218,11 @@ function setup() {
     answer.parent(answer_container);
     answer.center('horizontal');
     onRelease();
+
+    score_board = createDiv('Score: ' + 0);
+    score_board.position(0, 0);
+    score_board.style('font-family', 'monospace');
+    score_board.style('font-size', '20pt');
 }
 
 function draw() {
@@ -263,6 +269,8 @@ function draw() {
     }
 
     screen.html(combinedName);
+
+    score_board.html('Score: ' + score);
 }
 
 function windowResized() {
