@@ -98,15 +98,27 @@ function setup() {
     gif_start.play()
     s1 = createSelect();
     s2 = createSelect();
-    s1.position(0, windowHeight*0.2);
-    s2.position(windowWidth - (windowWidth * GIF_SPACE) - SELECT_WIDTH , windowHeight*0.2);
-    s1.size(SELECT_WIDTH, SELECT_HEIGHT);
-    s2.size(SELECT_WIDTH, SELECT_HEIGHT);
+    let select_width = windowWidth - (windowWidth * GIF_SPACE);
+
+    s1.position(select_width*0.20, windowHeight*0.7);
+    s2.position(select_width*0.55, windowHeight*0.7);
+    s1.size(select_width * 0.2, windowHeight * 0.05);
+    s2.size(select_width * 0.2, windowHeight * 0.05);
+
+    s1.style('background-color', '#A9A9A9');
+    s1.style('border-radius', '10px');
+    s1.style('border-color', 'black');
+    s2.style('background-color', '#A9A9A9');
+    s2.style('border-radius', '10px');
+    s2.style('border-color', 'black');
 
     guess_btn = createButton("select guess");
-    guess_btn.size(BUTTON_WIDTH, BUTTON_HEIGHT);
+    guess_btn.size(select_width * 0.2, windowHeight * 0.05);
     guess_btn.position((windowWidth - (windowWidth * GIF_SPACE)) / 2 - BUTTON_WIDTH / 2, windowHeight * 0.6);
     guess_btn.mousePressed(process_guess);
+    guess_btn.style('background-color', '#A9A9A9');
+    guess_btn.style('border-radius', '10px');
+    guess_btn.style('border-color', 'black');
 }
 
 function draw() {
@@ -148,10 +160,14 @@ function draw() {
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
-    s1.position(0, (windowHeight * 0.2));
-    s2.position(windowWidth - (windowWidth * GIF_SPACE) - SELECT_WIDTH , windowHeight*0.2);
+    let select_width = windowWidth - (windowWidth * GIF_SPACE);
+    s1.position(select_width*0.20, windowHeight*0.7);
+    s2.position(select_width*0.55, windowHeight*0.7);
+    s1.size(select_width * 0.2, windowHeight * 0.05);
+    s2.size(select_width * 0.2, windowHeight * 0.05);
     guess_btn.position((windowWidth - (windowWidth * GIF_SPACE)) / 2 - BUTTON_WIDTH / 2, windowHeight * 0.6);
     image(guess_img, windowWidth - (windowWidth * GIF_SPACE) + 40, windowHeight - (windowHeight * 0.8), 400, 400);
+    pokedex.size(windowWidth - (windowWidth * GIF_SPACE), windowHeight);
 }
 
 function process_guess() {
