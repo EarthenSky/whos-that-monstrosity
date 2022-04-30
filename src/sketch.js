@@ -7,6 +7,9 @@ const GIF_STATE = {
 const SELECT_WIDTH = 200;
 const SELECT_HEIGHT = 30;
 
+const BUTTON_WIDTH = 200;
+const BUTTON_HEIGHT = 30;
+
 let current_gif_state = GIF_STATE.BEGINNING;
 let gif_start, gif_loop, gif_reveal;
 let pokemon_list = [];
@@ -67,14 +70,19 @@ function setup() {
     gif_start.play()
     s1 = createSelect();
     s2 = createSelect();
-    s1.position(0 + SELECT_WIDTH, windowHeight*0.5);
-    s2.position(windowWidth - (windowWidth * GIF_SPACE) - 2*SELECT_WIDTH , windowHeight*0.5);
+    s1.position(0, windowHeight*0.2);
+    s2.position(windowWidth - (windowWidth * GIF_SPACE) - SELECT_WIDTH , windowHeight*0.2);
     s1.size(SELECT_WIDTH, SELECT_HEIGHT);
     s2.size(SELECT_WIDTH, SELECT_HEIGHT);
     pokemon_list.forEach( elem => {
-        s1.option(elem);
-        s2.option(elem);
+         s1.option(elem);
+         s2.option(elem);
     })
+
+    guess_btn = createButton("select guess");
+    guess_btn.size(BUTTON_WIDTH, BUTTON_HEIGHT);
+    guess_btn.position((windowWidth - (windowWidth * GIF_SPACE)) / 2 - BUTTON_WIDTH / 2, windowHeight * 0.6);
+    guess_btn.mousePressed(process_guess);
 }
   
 function draw() {
@@ -108,6 +116,13 @@ function draw() {
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
-    s1.position(0 + 2* SELECT_HEIGHT, (windowHeight * 0.5));
-    s2.position(windowWidth - (windowWidth * GIF_SPACE) - 2 * SELECT_WIDTH , windowHeight*0.5);
+    s1.position(0, (windowHeight * 0.2));
+    s2.position(windowWidth - (windowWidth * GIF_SPACE) - SELECT_WIDTH , windowHeight*0.2);
+    guess_btn.position((windowWidth - (windowWidth * GIF_SPACE)) / 2 - BUTTON_WIDTH / 2, windowHeight * 0.6);
+}
+
+function process_guess() {
+    console.log("Button presssed");
+    console.log(s1.value());
+    console.log(s2.value());
 }
