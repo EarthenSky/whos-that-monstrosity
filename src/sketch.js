@@ -106,11 +106,6 @@ function draw() {
         randomize_img();
     }
 
-    // draw image if it exists:
-    if (guess_img != null) {
-        image(guess_img, 10, 10, 400, 400);
-    }
-
     switch(current_gif_state) {
         case GIF_STATE.BEGINNING :
             image(gif_start, windowWidth - (windowWidth * GIF_SPACE), 0, windowWidth * GIF_SPACE, windowHeight);
@@ -122,6 +117,11 @@ function draw() {
             break;
         case GIF_STATE.LOOP :
             image(gif_loop, windowWidth - (windowWidth * GIF_SPACE), 0, windowWidth * GIF_SPACE, windowHeight);
+            // draw image if it exists:
+            if (guess_img != null) {
+                let guess_image_width = (windowWidth) - (windowWidth * GIF_SPACE);
+                image(guess_img, guess_image_width + (guess_image_width * 0.1), windowHeight - (windowHeight * 0.8), (windowWidth * GIF_SPACE) * 0.4, windowHeight * 0.4); 
+            }
             break;
         default:
             console.log('Weird');
@@ -133,6 +133,7 @@ function windowResized() {
     s1.position(0, (windowHeight * 0.2));
     s2.position(windowWidth - (windowWidth * GIF_SPACE) - SELECT_WIDTH , windowHeight*0.2);
     guess_btn.position((windowWidth - (windowWidth * GIF_SPACE)) / 2 - BUTTON_WIDTH / 2, windowHeight * 0.6);
+    image(guess_img, windowWidth - (windowWidth * GIF_SPACE) + 40, windowHeight - (windowHeight * 0.8), 400, 400);
 }
 
 function process_guess() {
