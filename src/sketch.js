@@ -50,9 +50,6 @@ function randomize_img() {
     let top = pokemon_image_list[itop];
     let bot = pokemon_image_list[ibot];
 
-    //let topcol = pokemon_color_image_list[itop];
-    //let botcol = pokemon_color_image_list[ibot];
-
     guess_img = stitch_img(top, bot);
 }
 
@@ -71,6 +68,36 @@ let num_names_done = 0;
 let pokedex;
 let pokedex_done;
 
+let loadColourImages = function() {
+    const at = answerTop;
+    const ab = answerBot;
+
+    if (num_images_done != 151) {
+        return;
+    }
+
+    if (pokemon_color_image_list[at] == null) {
+        pokemon_color_image_list[at] = "empty";
+        getBase64FromUrl("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/images/pkmn_min/" + pokemon_list_searchable[at] + "-min.png")
+        .then(b64 => loadImage(b64, img => {
+            pokemon_color_image_list[at] = img; 
+        }));
+    }
+
+    if (pokemon_color_image_list[ab] == null) {
+        pokemon_color_image_list[ab] = "empty";
+        getBase64FromUrl("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/images/pkmn_min/" + pokemon_list_searchable[ab] + "-min.png")
+        .then(b64 => loadImage(b64, img => {
+            pokemon_color_image_list[ab] = img; 
+        }));
+    }
+}
+
+let onRelease = function() {
+    combinedName = s1.value().slice(0, s1.value().length/2) + s2.value().slice(s2.value().length/2, s2.value().length)
+    loadColourImages();
+}
+
 async function preload() {
     gif_start = loadImage('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/who_that_pokemon_one.gif');
     gif_loop = loadImage('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/who_that_pokemon_two.gif');
@@ -82,8 +109,8 @@ async function preload() {
     pDisplayList = await fetch("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/src/python/data/pokemon-display.txt");
     pDisplayListText = await pDisplayList.text();
     pDisplayListText.split("\n").forEach(pokemon_name => {
-        pokemon_list.push(pokemon_name)
-        num_names_done += 1
+        pokemon_list.push(pokemon_name);
+        num_names_done += 1;
     });
 
     plist = await fetch("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/src/python/data/pokemon.txt");
@@ -109,11 +136,7 @@ function setup() {
     gif_start.play()
     s1 = createSelect();
     s2 = createSelect();
-
-    let onRelease = function() {
-        combinedName = s1.value().slice(0, s1.value().length/2) + s2.value().slice(s2.value().length/2, s2.value().length)
-        loadColourImages();
-    }
+    
     s1.mouseReleased(onRelease);
     s2.mouseReleased(onRelease);
     let select_width = windowWidth - (windowWidth * GIF_SPACE);
@@ -135,29 +158,7 @@ function setup() {
     guess_btn.position((windowWidth - (windowWidth * GIF_SPACE)) / 2 - BUTTON_WIDTH / 2, windowHeight * 0.6);
     guess_btn.mousePressed(process_guess);
 
-    let loadColourImages = function() {
-        const at = answerTop;
-        const ab = answerBot;
-
-        if (pokemon_color_image_list[at] == null) {
-            pokemon_color_image_list[at] = "empty";
-            getBase64FromUrl("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/images/pkmn_normal/" + pokemon_list_searchable[at] + ".png")
-            .then(b64 => loadImage(b64, img => {
-                pokemon_color_image_list[at] = img; 
-            }));
-        }
-
-        if (pokemon_color_image_list[ab] == null) {
-            pokemon_color_image_list[ab] = "empty";
-            getBase64FromUrl("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/images/pkmn_normal/" + pokemon_list_searchable[ab] + ".png")
-            .then(b64 => loadImage(b64, img => {
-                pokemon_color_image_list[ab] = img; 
-            }));
-        }
-    }
     guess_btn.mouseOver(loadColourImages);
-
-    onRelease();
 
     guess_btn.style('background-color', '#A9A9A9');
     guess_btn.style('border-radius', '10px');
@@ -173,6 +174,7 @@ function setup() {
     screen.style('font-family', 'monospace');
     screen.style('text-align', 'center');
     screen.style('font-size', '40px');
+    onRelease();
 }
 
 function draw() {
@@ -230,7 +232,6 @@ function windowResized() {
 }
 
 function process_guess() {
-    console.log("Button presssed");
     console.log(s1.value());
     console.log(s2.value());
 
@@ -243,9 +244,10 @@ function process_guess() {
 function wait_loop() {
     if (pokemon_color_image_list[answerTop] == "empty" || pokemon_color_image_list[answerBot] == "empty" || pokemon_color_image_list[answerTop] == null || pokemon_color_image_list[answerBot] == null) {
         setTimeout(wait_loop, 100);
+        loadColourImages();
     } else {
         guess_img = stitch_color(pokemon_image_list[answerTop], pokemon_image_list[answerBot], pokemon_color_image_list[answerTop], pokemon_color_image_list[answerBot]);
         console.log("showing result");
-        setTimeout(randomize_img, 1200);
+        setTimeout(randomize_img, 1750);
     }
 }
