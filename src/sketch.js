@@ -38,7 +38,8 @@ let answerBot = -1;
 
 function randomize_img() {
     guess_img = null; // clear img
-
+    guess_btn.removeAttribute('disabled');
+    
     betterrandnextFloat();
 
     let itop = Math.floor(betterrandnextFloat() * pokemon_image_list.length);
@@ -311,11 +312,12 @@ function process_guess() {
 
 function wait_loop() {
     if (pokemon_color_image_list[answerTop] == "empty" || pokemon_color_image_list[answerBot] == "empty" || pokemon_color_image_list[answerTop] == null || pokemon_color_image_list[answerBot] == null) {
+        guess_btn.attribute('disabled', true);
         setTimeout(wait_loop, 100);
         loadColourImages();
     } else {
         guess_img = stitch_color(pokemon_image_list[answerTop], pokemon_image_list[answerBot], pokemon_color_image_list[answerTop], pokemon_color_image_list[answerBot]);
         console.log("showing result");
-        setTimeout(randomize_img, 1750);
+        setTimeout(randomize_img, 1400);
     }
 }
