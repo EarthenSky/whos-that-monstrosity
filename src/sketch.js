@@ -58,6 +58,7 @@ async function preload() {
     gif_start = loadImage('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/who_that_pokemon_one.gif');
     gif_loop = loadImage('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/who_that_pokemon_two.gif');
     //gif_reveal = loadImage('res/who_that_pokemon_three.gif');
+    pokedex = loadImage('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/pokedex1.svg');
 
     pDisplayList = await fetch("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/src/python/data/pokemon-display.txt");
     pDisplayListText = await pDisplayList.text();
