@@ -162,6 +162,17 @@ function setup() {
     guess_btn.style('background-color', '#A9A9A9');
     guess_btn.style('border-radius', '10px');
     guess_btn.style('border-color', 'black');
+
+    screen = createElement('div', '');
+    screen.position((windowWidth - (windowWidth * GIF_SPACE)) * 0.25, windowHeight * 0.3);
+    screen.style('width', '300px');
+    screen.style('padding', '50px');
+    screen.style('margin', '20px');
+    screen.style('background-color', 'green');
+    screen.style('border-radius', '10px');
+    screen.style('font-family', 'monospace');
+    screen.style('text-align', 'center');
+    screen.style('font-size', '40px');
 }
 
 function draw() {
@@ -202,9 +213,7 @@ function draw() {
             console.log('Weird');
     }
 
-    textSize(32);
-    rect(200, 100-40, 150, 80);
-    text(combinedName, 200, 100);
+    screen.html(combinedName);
 }
 
 function windowResized() {
@@ -217,6 +226,7 @@ function windowResized() {
     guess_btn.position((windowWidth - (windowWidth * GIF_SPACE)) / 2 - BUTTON_WIDTH / 2, windowHeight * 0.6);
     image(guess_img, windowWidth - (windowWidth * GIF_SPACE) + 40, windowHeight - (windowHeight * 0.8), 400, 400);
     pokedex.size(windowWidth - (windowWidth * GIF_SPACE), windowHeight);
+    screen.position((windowWidth - (windowWidth * GIF_SPACE)) * 0.25, windowHeight * 0.3);
 }
 
 function process_guess() {
