@@ -1,4 +1,4 @@
-const GIF_SPACE = 0.5
+const GIF_SPACE = 0.7
 const GIF_STATE = {
     BEGINNING : 0,
     LOOP : 1,
@@ -66,7 +66,12 @@ let guess_btn;
 let list_done = false;
 let num_names_done = 0;
 let pokedex;
-let pokedex_done;
+let screen;
+let answer;
+let container;
+let screen_container;
+let answer_container;
+let score = 0;
 
 let loadColourImages = function() {
     const at = answerTop;
@@ -145,10 +150,28 @@ function setup() {
     s2.mouseReleased(onRelease);
     let select_width = windowWidth - (windowWidth * GIF_SPACE);
 
-    s1.position(select_width*0.20, windowHeight*0.7);
-    s2.position(select_width*0.55, windowHeight*0.7);
-    s1.size(select_width * 0.2, windowHeight * 0.05);
-    s2.size(select_width * 0.2, windowHeight * 0.05);
+    container = createDiv();
+    container.position(0, windowHeight * 0.5);
+    container.size((windowWidth - (windowWidth * GIF_SPACE)), windowHeight * 0.05);
+    container.style('display', 'flex');
+    container.style('justify-content', 'center');
+
+    screen_container = createDiv();
+    screen_container.html('Your guess:');
+    screen_container.style('text-align', 'center');
+    screen_container.style('font-family', 'monospace');
+    screen_container.style('font-size', '15pt');
+    screen_container.position(0, windowHeight * 0.35);
+    screen_container.size(windowWidth - (windowWidth * GIF_SPACE), windowHeight * 0.1);
+
+    
+    answer_container = createDiv();
+    answer_container.position(0, windowHeight * 0.6);
+    answer_container.style('text-align', 'center')
+    answer_container.style('font-family', 'monospace')
+    answer_container.style('font-size', '15pt');
+    answer_container.size(windowWidth - (windowWidth * GIF_SPACE), windowHeight * 0.1);
+    answer_container.html('Correct guess:');
 
     s1.style('background-color', '#A9A9A9');
     s1.style('border-radius', '10px');
@@ -158,8 +181,8 @@ function setup() {
     s2.style('border-color', 'black');
 
     guess_btn = createButton("select guess");
-    guess_btn.size(select_width * 0.2, windowHeight * 0.05);
-    guess_btn.position((windowWidth - (windowWidth * GIF_SPACE)) / 2 - BUTTON_WIDTH / 2, windowHeight * 0.6);
+    //guess_btn.size(select_width * 0.2, windowHeight * 0.05);
+    //guess_btn.position((windowWidth - (windowWidth * GIF_SPACE)) / 2 - BUTTON_WIDTH / 2, windowHeight * 0.6);
     guess_btn.mousePressed(process_guess);
 
     guess_btn.mouseOver(loadColourImages);
@@ -168,32 +191,38 @@ function setup() {
     guess_btn.style('border-radius', '10px');
     guess_btn.style('border-color', 'black');
 
-    screen = createElement('div', '');
-    screen.position((windowWidth - (windowWidth * GIF_SPACE)) * 0.25, windowHeight * 0.3);
-    screen.style('width', '300px');
-    screen.style('padding', '50px');
-    screen.style('margin', '20px');
+    container.child(s1);
+    container.child(guess_btn);
+    container.child(s2);
+   
+    screen = createElement('div', 'Greetings');
     screen.style('background-color', 'green');
     screen.style('border-radius', '10px');
     screen.style('font-family', 'monospace');
     screen.style('text-align', 'center');
-    screen.style('font-size', '40px');
+    screen.style('font-size', '25px');
+    screen.style('width', '60%');
+    screen.style('padding', '30px');
+    screen.parent(screen_container);
+    screen.center('horizontal');
 
-    answer = createElement('div', '');
-    answer.position((windowWidth - (windowWidth * GIF_SPACE)) * 0.2, windowHeight * 0.8);
-    answer.style('width', '400px');
-    answer.style('padding', '35px');
-    answer.style('margin', '20px');
+    answer = createElement('div', 'Welcome to the Monsterdex');
     answer.style('background-color', 'green');
     answer.style('border-radius', '10px');
     answer.style('font-family', 'monospace');
     answer.style('text-align', 'center');
     answer.style('font-size', '25px');
-    
+    answer.style('width', '60%');
+    answer.style('padding', '30px');
+    answer.parent(answer_container);
+    answer.center('horizontal');
     onRelease();
 }
 
 function draw() {
+    background("#5cadf3");
+    betterrandnextFloat();
+
     // once data finishes loading, load initial images
     if (num_images_done == 151 && !done_startup) {
         done_startup = true;
@@ -238,20 +267,15 @@ function draw() {
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
-    let select_width = windowWidth - (windowWidth * GIF_SPACE);
-    
-    if (s1 != null && s2 != null) {
-        s1.position(select_width*0.20, windowHeight*0.7);
-        s2.position(select_width*0.55, windowHeight*0.7);
-        s1.size(select_width * 0.2, windowHeight * 0.05);
-        s2.size(select_width * 0.2, windowHeight * 0.05);
-    }
 
-    guess_btn.position((windowWidth - (windowWidth * GIF_SPACE)) / 2 - BUTTON_WIDTH / 2, windowHeight * 0.6);
+    // guess_btn.position((windowWidth - (windowWidth * GIF_SPACE)) / 2 - BUTTON_WIDTH / 2, windowHeight * 0.6);
     image(guess_img, windowWidth - (windowWidth * GIF_SPACE) + 40, windowHeight - (windowHeight * 0.8), 400, 400);
+    screen_container.size(windowWidth - (windowWidth * GIF_SPACE), windowHeight * 0.1);
+    answer_container.size(windowWidth - (windowWidth * GIF_SPACE), windowHeight * 0.1);
+    screen.style('width', '60%');
+    answer.style('width', '60%');
     pokedex.size(windowWidth - (windowWidth * GIF_SPACE), windowHeight);
-    screen.position((windowWidth - (windowWidth * GIF_SPACE)) * 0.25, windowHeight * 0.3);
-    answer.position((windowWidth - (windowWidth * GIF_SPACE)) * 0.2, windowHeight * 0.8);
+    container.size((windowWidth - (windowWidth * GIF_SPACE)), windowHeight * 0.05);
 }
 
 function process_guess() {
@@ -261,7 +285,18 @@ function process_guess() {
     console.log(pokemon_list[answerTop]);
     console.log(pokemon_list[answerBot]);
 
-    answer.html(pokemon_list[answerTop] + ' ' + pokemon_list[answerBot]);
+    answer_name = pokemon_list[answerTop].slice(0, s1.value().length/2) + pokemon_list[answerBot].slice(s2.value().length/2, s2.value().length);
+    if (screen.html() === answer_name) {
+        console.log("CORRECT!!");
+        answer.style('background-color', 'green');
+        score += 1
+    }
+    else {
+        answer.style('background-color', 'red');
+        console.log("INCORRECT!!");
+    }
+
+    answer.html(answer_name);
 
     wait_loop();
 }
@@ -275,8 +310,4 @@ function wait_loop() {
         console.log("showing result");
         setTimeout(randomize_img, 1750);
     }
-}
-
-function stylize_screen(screen) {
-
 }
