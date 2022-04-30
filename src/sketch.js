@@ -102,19 +102,6 @@ async function preload() {
             }));
         i += 1;
     });
-
-    /*
-    i = 0;
-    plistText.split("\n").forEach(pokemon_name => {
-        const i2 = i;
-        pokemon_name = pokemon_name.replaceAll('%', '%25');
-        getBase64FromUrl("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/images/pkmn_normal/" + pokemon_name + ".png")
-            .then(b64 => loadImage(b64, img => {
-                pokemon_color_image_list[i2] = img; 
-                num_images_done += 1;
-            }));
-        i += 1;
-    });*/
 }
 
 function setup() {
@@ -241,12 +228,11 @@ function process_guess() {
     console.log(pokemon_list[answerBot]);
 
     wait_loop();
-    
 }
 
 function wait_loop() {
     if (pokemon_color_image_list[answerTop] == "empty" || pokemon_color_image_list[answerBot] == "empty" || pokemon_color_image_list[answerTop] == null || pokemon_color_image_list[answerBot] == null) {
-        setTimeout(wait_loop, 250);
+        setTimeout(wait_loop, 100);
     } else {
         guess_img = stitch_color(pokemon_image_list[answerTop], pokemon_image_list[answerBot], pokemon_color_image_list[answerTop], pokemon_color_image_list[answerBot]);
         console.log("showing result");
