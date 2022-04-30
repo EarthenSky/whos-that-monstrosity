@@ -28,9 +28,15 @@ const getBase64FromUrl = async (url) => {
 let guess_img = null;
 
 function randomize_img() {
+    Math.random();
+    Math.random();
+
     //console.log(pokemon_image_list)
     let itop = Math.floor(Math.random() * pokemon_image_list.length);
     let ibot = Math.floor(Math.random() * pokemon_image_list.length);
+    
+    console.log(itop+1)
+    console.log(ibot+1)
     
     let top = pokemon_image_list[itop];
     let bot = pokemon_image_list[ibot];
@@ -67,7 +73,7 @@ async function preload() {
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
-    gif_start.play()
+    gif_start.play();
 }
 
 function draw() {
@@ -91,7 +97,7 @@ function draw() {
                 gif_start.pause();
             }
             break;
-        case GIF_STATE.LOOP :
+        case GIF_STATE.LOOP:
             image(gif_loop, windowWidth - (windowWidth * GIF_SPACE), 0, windowWidth * GIF_SPACE, windowHeight - (windowHeight*0.2));
             break;
         default:
