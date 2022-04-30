@@ -1,4 +1,4 @@
-# whos-that-monstrosity
+# who's-that-monstrosity
  a pokemon monstrosity guessing game
 
 # how to play:
