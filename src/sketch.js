@@ -75,6 +75,7 @@ let answer_container;
 let score = 0;
 let score_board;
 let beginning_sound;
+let ididit_sound;
 
 let loadColourImages = function() {
     const at = answerTop;
@@ -110,6 +111,7 @@ async function preload() {
     betterrandinit();
 
     beginning_sound = loadSound("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/Audio_partone_whosthatpokemon.mp3");
+    ididit_sound = loadSound("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/sound_I_did_it.mp3");
 
     gif_start = loadImage('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/who_that_pokemon_one.gif');
     gif_loop = loadImage('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/who_that_pokemon_two.gif');
@@ -302,6 +304,7 @@ function process_guess() {
 
     answer_name = pokemon_list[answerTop].slice(0, s1.value().length/2) + pokemon_list[answerBot].slice(s2.value().length/2, s2.value().length);
     if (screen.html() === answer_name) {
+        ididit_sound.play();
         console.log("CORRECT!!");
         answer.style('background-color', 'green');
         score += 1
