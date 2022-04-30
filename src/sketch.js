@@ -39,10 +39,10 @@ let answerBot = -1;
 function randomize_img() {
     guess_img = null; // clear img
 
-    Math.random();
+    betterrandnextFloat();
 
-    let itop = Math.floor(Math.random() * pokemon_image_list.length);
-    let ibot = Math.floor(Math.random() * pokemon_image_list.length);
+    let itop = Math.floor(betterrandnextFloat() * pokemon_image_list.length);
+    let ibot = Math.floor(betterrandnextFloat() * pokemon_image_list.length);
     
     answerTop = (itop);
     answerBot = (ibot);
@@ -104,6 +104,8 @@ let onRelease = function() {
 }
 
 async function preload() {
+    betterrandinit();
+
     gif_start = loadImage('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/who_that_pokemon_one.gif');
     gif_loop = loadImage('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/who_that_pokemon_two.gif');
     //gif_reveal = loadImage('res/who_that_pokemon_three.gif');
@@ -127,7 +129,7 @@ async function preload() {
         const i2 = i;
         pokemon_name = pokemon_name.replaceAll('%', '%25');
         pokemon_list_searchable.push(pokemon_name);
-        getBase64FromUrl("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/images/pkmn_outline/" + pokemon_name + ".png")
+        getBase64FromUrl("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/images/pkmn_outline_min/" + pokemon_name + "-min.png")
             .then(b64 => loadImage(b64, img => {
                 pokemon_image_list[i2] = img; 
                 num_images_done += 1;
@@ -137,6 +139,8 @@ async function preload() {
 }
 
 function setup() {
+    betterrandinit();
+
     createCanvas(windowWidth, windowHeight);
     gif_start.play()
     s1 = createSelect();
@@ -217,7 +221,7 @@ function setup() {
 
 function draw() {
     background("#5cadf3");
-    Math.random();
+    betterrandnextFloat();
 
     // once data finishes loading, load initial images
     if (num_images_done == 151 && !done_startup) {
