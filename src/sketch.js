@@ -174,7 +174,6 @@ function setup() {
     screen.style('font-family', 'monospace');
     screen.style('text-align', 'center');
     screen.style('font-size', '40px');
-    onRelease();
 
     answer = createElement('div', '');
     answer.position((windowWidth - (windowWidth * GIF_SPACE)) * 0.2, windowHeight * 0.8);
@@ -273,4 +272,8 @@ function wait_loop() {
         console.log("showing result");
         setTimeout(randomize_img, 1750);
     }
+}
+
+function stylize_screen(screen) {
+
 }
