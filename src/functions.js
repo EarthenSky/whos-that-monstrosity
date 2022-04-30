@@ -178,14 +178,18 @@ function stitch_color(pkmn1, pkmn2, pkmncol1, pkmncol2) {
     img1.copy(pkmn1, 0, 0, pkmn1.width, pkmn1.height, 0, 0, pkmn1.width, pkmn1.height);
     img2.copy(pkmn2, 0, 0, pkmn2.width, pkmn2.height, 0, 0, pkmn2.width, pkmn2.height);
 
-    let img1col = createImage(pkmn1.width, pkmn1.height);
-    let img2col = createImage(pkmn2.width, pkmn2.height);
-    img1col.copy(pkmncol1, 0, 0, pkmn1.width, pkmn1.height, 0, 0, pkmn1.width, pkmn1.height);
-    img2col.copy(pkmncol2, 0, 0, pkmn2.width, pkmn2.height, 0, 0, pkmn2.width, pkmn2.height);
+    console.log(pkmncol1);
+
+    let img1col = createImage(pkmncol1.width, pkmncol1.height);
+    let img2col = createImage(pkmncol2.width, pkmncol2.height);
+    img1col.copy(pkmncol1, 0, 0, pkmncol1.width, pkmncol1.height, 0, 0, pkmncol1.width, pkmncol1.height);
+    img2col.copy(pkmncol2, 0, 0, pkmncol2.width, pkmncol2.height, 0, 0, pkmncol2.width, pkmncol2.height);
 
     // this creates a dom element
     img1.loadPixels();
     img2.loadPixels();
+    img1col.loadPixels();
+    img2col.loadPixels();
 
     // get biggest size of the two
     let width, height;
@@ -346,6 +350,8 @@ function stitch_color(pkmn1, pkmn2, pkmncol1, pkmncol2) {
 
     img1.updatePixels();
     img2.updatePixels();
+    img1col.updatePixels();
+    img2col.updatePixels();
 
     return guess_img;
 }

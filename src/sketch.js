@@ -226,11 +226,11 @@ function process_guess() {
 }
 
 function wait_loop() {
-    if (pokemon_color_image_list[answerTop] == "empty" || pokemon_color_image_list[answerBot] == "empty") {
+    if (pokemon_color_image_list[answerTop] == "empty" || pokemon_color_image_list[answerBot] == "empty" || pokemon_color_image_list[answerTop] == null || pokemon_color_image_list[answerBot] == null) {
         setTimeout(wait_loop, 250);
     } else {
-        guess_img = stitch_img(pokemon_image_list[answerTop], pokemon_image_list[answerBot], pokemon_color_image_list[answerTop], pokemon_color_image_list[answerBot]);
+        guess_img = stitch_color(pokemon_image_list[answerTop], pokemon_image_list[answerBot], pokemon_color_image_list[answerTop], pokemon_color_image_list[answerBot]);
         console.log("showing result");
-        setTimeout(randomize_img, 40);
+        setTimeout(randomize_img, 1200);
     }
 }
