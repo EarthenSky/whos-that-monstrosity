@@ -2,7 +2,7 @@
  a pokemon monstrosity guessing game
 
 # how to play:
-- 
+- go to https://whos-that-monstrosity.github.io/ to play
 
 # running locally:
 - cd to the directory that contains index.html
