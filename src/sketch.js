@@ -174,6 +174,17 @@ function setup() {
     screen.style('font-family', 'monospace');
     screen.style('text-align', 'center');
     screen.style('font-size', '40px');
+
+    answer = createElement('div', '');
+    answer.position((windowWidth - (windowWidth * GIF_SPACE)) * 0.2, windowHeight * 0.8);
+    answer.style('width', '400px');
+    answer.style('padding', '35px');
+    answer.style('margin', '20px');
+    answer.style('background-color', 'green');
+    answer.style('border-radius', '10px');
+    answer.style('font-family', 'monospace');
+    answer.style('text-align', 'center');
+    answer.style('font-size', '25px');
     onRelease();
 }
 
@@ -237,7 +248,7 @@ function windowResized() {
     image(guess_img, windowWidth - (windowWidth * GIF_SPACE) + 40, windowHeight - (windowHeight * 0.8), 400, 400);
     pokedex.size(windowWidth - (windowWidth * GIF_SPACE), windowHeight);
     screen.position((windowWidth - (windowWidth * GIF_SPACE)) * 0.25, windowHeight * 0.3);
-
+    answer.position((windowWidth - (windowWidth * GIF_SPACE)) * 0.2, windowHeight * 0.8);
 }
 
 function process_guess() {
@@ -246,6 +257,8 @@ function process_guess() {
 
     console.log(pokemon_list[answerTop]);
     console.log(pokemon_list[answerBot]);
+
+    answer.html(pokemon_list[answerTop] + ' ' + pokemon_list[answerBot]);
 
     wait_loop();
 }
@@ -259,4 +272,8 @@ function wait_loop() {
         console.log("showing result");
         setTimeout(randomize_img, 1750);
     }
+}
+
+function stylize_screen(screen) {
+
 }
