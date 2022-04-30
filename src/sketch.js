@@ -13,6 +13,7 @@ const BUTTON_HEIGHT = 30;
 let current_gif_state = GIF_STATE.BEGINNING;
 let gif_start, gif_loop, gif_reveal;
 let pokemon_list = [];
+let pokemon_list_searchable = [];
 
 let num_images_done = 0;
 let done_startup = false;
@@ -32,29 +33,38 @@ const getBase64FromUrl = async (url) => {
 
 let guess_img = null;
 
+let answerTop = -1;
+let answerBot = -1;
+
 function randomize_img() {
-    Math.random();
+    guess_img = null; // clear img
+
     Math.random();
 
-    //console.log(pokemon_image_list)
     let itop = Math.floor(Math.random() * pokemon_image_list.length);
     let ibot = Math.floor(Math.random() * pokemon_image_list.length);
     
-    console.log(itop+1)
-    console.log(ibot+1)
+    answerTop = (itop);
+    answerBot = (ibot);
     
     let top = pokemon_image_list[itop];
     let bot = pokemon_image_list[ibot];
+
+    //let topcol = pokemon_color_image_list[itop];
+    //let botcol = pokemon_color_image_list[ibot];
 
     guess_img = stitch_img(top, bot);
 }
 
 let pokemon_image_list = [];
+let pokemon_color_image_list = [];
 for (let i = 0; i < 151; i++) {
     pokemon_image_list.push(null);
+    pokemon_color_image_list.push(null);
 }
 
 let s1, s2;
+let combinedName = "";
 let guess_btn;
 let list_done = false;
 let num_names_done = 0;
@@ -84,6 +94,7 @@ async function preload() {
     plistText.split("\n").forEach(pokemon_name => {
         const i2 = i;
         pokemon_name = pokemon_name.replaceAll('%', '%25');
+        pokemon_list_searchable.push(pokemon_name);
         getBase64FromUrl("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/images/pkmn_outline/" + pokemon_name + ".png")
             .then(b64 => loadImage(b64, img => {
                 pokemon_image_list[i2] = img; 
@@ -91,6 +102,19 @@ async function preload() {
             }));
         i += 1;
     });
+
+    /*
+    i = 0;
+    plistText.split("\n").forEach(pokemon_name => {
+        const i2 = i;
+        pokemon_name = pokemon_name.replaceAll('%', '%25');
+        getBase64FromUrl("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/images/pkmn_normal/" + pokemon_name + ".png")
+            .then(b64 => loadImage(b64, img => {
+                pokemon_color_image_list[i2] = img; 
+                num_images_done += 1;
+            }));
+        i += 1;
+    });*/
 }
 
 function setup() {
@@ -98,6 +122,13 @@ function setup() {
     gif_start.play()
     s1 = createSelect();
     s2 = createSelect();
+
+    let onRelease = function() {
+        combinedName = s1.value().slice(0, s1.value().length/2) + s2.value().slice(s2.value().length/2, s2.value().length)
+        loadColourImages();
+    }
+    s1.mouseReleased(onRelease);
+    s2.mouseReleased(onRelease);
     let select_width = windowWidth - (windowWidth * GIF_SPACE);
 
     s1.position(select_width*0.20, windowHeight*0.7);
@@ -116,12 +147,39 @@ function setup() {
     guess_btn.size(select_width * 0.2, windowHeight * 0.05);
     guess_btn.position((windowWidth - (windowWidth * GIF_SPACE)) / 2 - BUTTON_WIDTH / 2, windowHeight * 0.6);
     guess_btn.mousePressed(process_guess);
+
+    let loadColourImages = function() {
+        const at = answerTop;
+        const ab = answerBot;
+
+        if (pokemon_color_image_list[at] == null) {
+            pokemon_color_image_list[at] = "empty";
+            getBase64FromUrl("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/images/pkmn_normal/" + pokemon_list_searchable[at] + ".png")
+            .then(b64 => loadImage(b64, img => {
+                pokemon_color_image_list[at] = img; 
+            }));
+        }
+
+        if (pokemon_color_image_list[ab] == null) {
+            pokemon_color_image_list[ab] = "empty";
+            getBase64FromUrl("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/images/pkmn_normal/" + pokemon_list_searchable[ab] + ".png")
+            .then(b64 => loadImage(b64, img => {
+                pokemon_color_image_list[ab] = img; 
+            }));
+        }
+    }
+    guess_btn.mouseOver(loadColourImages);
+
+    onRelease();
+
     guess_btn.style('background-color', '#A9A9A9');
     guess_btn.style('border-radius', '10px');
     guess_btn.style('border-color', 'black');
 }
 
 function draw() {
+    Math.random();
+
     // once data finishes loading, load initial images
     if (num_images_done == 151 && !done_startup) {
         done_startup = true;
@@ -156,6 +214,10 @@ function draw() {
         default:
             console.log('Weird');
     }
+
+    textSize(32);
+    rect(200, 100-40, 150, 80);
+    text(combinedName, 200, 100);
 }
 
 function windowResized() {
@@ -174,4 +236,20 @@ function process_guess() {
     console.log("Button presssed");
     console.log(s1.value());
     console.log(s2.value());
+
+    console.log(pokemon_list[answerTop]);
+    console.log(pokemon_list[answerBot]);
+
+    wait_loop();
+    
+}
+
+function wait_loop() {
+    if (pokemon_color_image_list[answerTop] == "empty" || pokemon_color_image_list[answerBot] == "empty" || pokemon_color_image_list[answerTop] == null || pokemon_color_image_list[answerBot] == null) {
+        setTimeout(wait_loop, 250);
+    } else {
+        guess_img = stitch_color(pokemon_image_list[answerTop], pokemon_image_list[answerBot], pokemon_color_image_list[answerTop], pokemon_color_image_list[answerBot]);
+        console.log("showing result");
+        setTimeout(randomize_img, 1200);
+    }
 }
