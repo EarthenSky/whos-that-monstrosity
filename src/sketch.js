@@ -9,6 +9,7 @@ let current_gif_state = GIF_STATE.BEGINNING;
 let gif_start, gif_loop, gif_reveal;
 let pokemon_list;
 
+let num_images_done = 0;
 let done_startup = false;
 
 const getBase64FromUrl = async (url) => {
@@ -26,12 +27,21 @@ const getBase64FromUrl = async (url) => {
 
 let guess_img = null;
 
-let pokemon_image_list = [];
+function randomize_img() {
+    //console.log(pokemon_image_list)
+    let itop = Math.floor(Math.random() * pokemon_image_list.length);
+    let ibot = Math.floor(Math.random() * pokemon_image_list.length);
+    
+    let top = pokemon_image_list[itop];
+    let bot = pokemon_image_list[ibot];
 
-let a = null;
-let b = null;
-let a2 = null;
-let b2 = null;
+    guess_img = stitch_img(top, bot);
+}
+
+let pokemon_image_list = [];
+for (let i = 0; i < 151; i++) {
+    pokemon_image_list.push(null);
+}
 
 async function preload() {
     gif_start = loadImage('res/who_that_pokemon_one.gif');
@@ -39,33 +49,37 @@ async function preload() {
     //gif_reveal = loadImage('res/who_that_pokemon_three.gif');
 
     plist = await fetch("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/src/python/data/pokemon.txt");
-    plistText = await plist.text()
-    console.log(plistText);
-    a = await getBase64FromUrl("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/images/pkmn_outline/Pidgey.png");
-    b = await getBase64FromUrl("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/images/pkmn_outline/Zapdos.png");
+    plistText = await plist.text();
+    
+    // 
+    let i = 0;
     plistText.split("\n").forEach(pokemon_name => {
-        pokemon_image_list
+        const i2 = i;
+        pokemon_name = pokemon_name.replaceAll('%', '%25');
+        getBase64FromUrl("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/images/pkmn_outline/" + pokemon_name + ".png")
+            .then(b64 => loadImage(b64, img => {
+                pokemon_image_list[i2] = img; 
+                num_images_done += 1;
+            }));
+        i += 1;
     });
-
-    loadImage(a, img => a2 = img);
-    loadImage(b, img => b2 = img);
 }
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
     gif_start.play()
 }
-  
+
 function draw() {
-    if (!done_startup && a2 != null & b2 != null) {
-        guess_img = stitch_img(a2, b2);
+    // once data finishes loading, load initial images
+    if (num_images_done == 151 && !done_startup) {
         done_startup = true;
+        randomize_img();
     }
 
-    // tmp img:
+    // draw image if it exists:
     if (guess_img != null) {
-
-        image(guess_img, 10, 10, 200, 200);
+        image(guess_img, 10, 10, 400, 400);
     }
 
     switch(current_gif_state) {
