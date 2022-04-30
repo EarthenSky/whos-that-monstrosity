@@ -69,12 +69,15 @@ let guess_btn;
 let list_done = false;
 let num_names_done = 0;
 let pokedex;
+let pokedex_done;
 
 async function preload() {
     gif_start = loadImage('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/who_that_pokemon_one.gif');
     gif_loop = loadImage('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/who_that_pokemon_two.gif');
     //gif_reveal = loadImage('res/who_that_pokemon_three.gif');
-    pokedex = loadImage('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/pokedex1.svg');
+    pokedex = createImg('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/pokedex1.svg', "Error");
+    pokedex.position(0, 0);
+    pokedex.size(windowWidth - (windowWidth * GIF_SPACE), windowHeight);
 
     pDisplayList = await fetch("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/src/python/data/pokemon-display.txt");
     pDisplayListText = await pDisplayList.text();
@@ -126,17 +129,25 @@ function setup() {
     }
     s1.mouseReleased(onRelease);
     s2.mouseReleased(onRelease);
-   
-    s1.position(0, windowHeight*0.2);
-    s2.position(windowWidth - (windowWidth * GIF_SPACE) - SELECT_WIDTH , windowHeight*0.2);
-    s1.size(SELECT_WIDTH, SELECT_HEIGHT);
-    s2.size(SELECT_WIDTH, SELECT_HEIGHT);
+    let select_width = windowWidth - (windowWidth * GIF_SPACE);
+
+    s1.position(select_width*0.20, windowHeight*0.7);
+    s2.position(select_width*0.55, windowHeight*0.7);
+    s1.size(select_width * 0.2, windowHeight * 0.05);
+    s2.size(select_width * 0.2, windowHeight * 0.05);
+
+    s1.style('background-color', '#A9A9A9');
+    s1.style('border-radius', '10px');
+    s1.style('border-color', 'black');
+    s2.style('background-color', '#A9A9A9');
+    s2.style('border-radius', '10px');
+    s2.style('border-color', 'black');
 
     guess_btn = createButton("select guess");
-    guess_btn.size(BUTTON_WIDTH, BUTTON_HEIGHT);
+    guess_btn.size(select_width * 0.2, windowHeight * 0.05);
     guess_btn.position((windowWidth - (windowWidth * GIF_SPACE)) / 2 - BUTTON_WIDTH / 2, windowHeight * 0.6);
     guess_btn.mousePressed(process_guess);
-    
+
     let loadColourImages = function() {
         const at = answerTop;
         const ab = answerBot;
@@ -160,6 +171,10 @@ function setup() {
     guess_btn.mouseOver(loadColourImages);
 
     onRelease();
+
+    guess_btn.style('background-color', '#A9A9A9');
+    guess_btn.style('border-radius', '10px');
+    guess_btn.style('border-color', 'black');
 }
 
 function draw() {
@@ -207,10 +222,14 @@ function draw() {
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
-    s1.position(0, (windowHeight * 0.2));
-    s2.position(windowWidth - (windowWidth * GIF_SPACE) - SELECT_WIDTH , windowHeight*0.2);
+    let select_width = windowWidth - (windowWidth * GIF_SPACE);
+    s1.position(select_width*0.20, windowHeight*0.7);
+    s2.position(select_width*0.55, windowHeight*0.7);
+    s1.size(select_width * 0.2, windowHeight * 0.05);
+    s2.size(select_width * 0.2, windowHeight * 0.05);
     guess_btn.position((windowWidth - (windowWidth * GIF_SPACE)) / 2 - BUTTON_WIDTH / 2, windowHeight * 0.6);
     image(guess_img, windowWidth - (windowWidth * GIF_SPACE) + 40, windowHeight - (windowHeight * 0.8), 400, 400);
+    pokedex.size(windowWidth - (windowWidth * GIF_SPACE), windowHeight);
 }
 
 function process_guess() {
