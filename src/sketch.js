@@ -110,7 +110,7 @@ async function preload() {
     gif_start = loadImage('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/who_that_pokemon_one.gif');
     gif_loop = loadImage('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/who_that_pokemon_two.gif');
     //gif_reveal = loadImage('res/who_that_pokemon_three.gif');
-    pokedex = createImg('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/pokedex1.svg', "Error");
+    pokedex = createImg('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/pokedex v5.svg', "Error");
     pokedex.position(0, 0);
     pokedex.size(windowWidth - (windowWidth * GIF_SPACE), windowHeight);
 
