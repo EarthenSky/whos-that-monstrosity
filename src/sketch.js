@@ -194,8 +194,6 @@ function setup() {
 }
 
 function draw() {
-    betterrandnextFloat();
-
     // once data finishes loading, load initial images
     if (num_images_done == 151 && !done_startup) {
         done_startup = true;
