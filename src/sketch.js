@@ -52,10 +52,11 @@ let s1, s2;
 let guess_btn;
 let list_done = false;
 let num_names_done = 0;
+let pokedex;
 
 async function preload() {
-    gif_start = loadImage('res/who_that_pokemon_one.gif');
-    gif_loop = loadImage('res/who_that_pokemon_two.gif');
+    gif_start = loadImage('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/who_that_pokemon_one.gif');
+    gif_loop = loadImage('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/who_that_pokemon_two.gif');
     //gif_reveal = loadImage('res/who_that_pokemon_three.gif');
 
     pDisplayList = await fetch("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/src/python/data/pokemon-display.txt");
