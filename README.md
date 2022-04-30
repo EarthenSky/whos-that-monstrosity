@@ -11,6 +11,7 @@
 - guess the combination of two pokemon (top & bottom) by it's silhouette
 - *tip: you can type in the name of a pokemon into the combobox to navigate faster*
 - click select guess to lock in your choice
+- keep guessing until you get one right for a surprise
 
 # running locally:
 - cd to the directory that contains index.html
