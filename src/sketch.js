@@ -38,7 +38,8 @@ let answerBot = -1;
 
 function randomize_img() {
     guess_img = null; // clear img
-
+    guess_btn.removeAttribute('disabled');
+    
     betterrandnextFloat();
 
     let itop = Math.floor(betterrandnextFloat() * pokemon_image_list.length);
@@ -72,6 +73,8 @@ let container;
 let screen_container;
 let answer_container;
 let score = 0;
+let score_board;
+let beginning_sound;
 
 let loadColourImages = function() {
     const at = answerTop;
@@ -106,10 +109,12 @@ let onRelease = function() {
 async function preload() {
     betterrandinit();
 
+    beginning_sound = loadSound("https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/Audio_partone_whosthatpokemon.mp3");
+
     gif_start = loadImage('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/who_that_pokemon_one.gif');
     gif_loop = loadImage('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/who_that_pokemon_two.gif');
     //gif_reveal = loadImage('res/who_that_pokemon_three.gif');
-    pokedex = createImg('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/pokedex1.svg', "Error");
+    pokedex = createImg('https://raw.githubusercontent.com/EarthenSky/whos-that-monstrosity/main/res/pokedex v5.svg', "Error");
     pokedex.position(0, 0);
     pokedex.size(windowWidth - (windowWidth * GIF_SPACE), windowHeight);
 
@@ -217,6 +222,14 @@ function setup() {
     answer.parent(answer_container);
     answer.center('horizontal');
     onRelease();
+
+    score_board = createDiv('Score: ' + 0);
+    score_board.position(0, 0);
+    score_board.style('font-family', 'monospace');
+    score_board.style('font-size', '20pt');
+
+    
+    beginning_sound.play();
 }
 
 function draw() {
@@ -263,6 +276,8 @@ function draw() {
     }
 
     screen.html(combinedName);
+
+    score_board.html('Score: ' + score);
 }
 
 function windowResized() {
@@ -303,11 +318,12 @@ function process_guess() {
 
 function wait_loop() {
     if (pokemon_color_image_list[answerTop] == "empty" || pokemon_color_image_list[answerBot] == "empty" || pokemon_color_image_list[answerTop] == null || pokemon_color_image_list[answerBot] == null) {
+        guess_btn.attribute('disabled', true);
         setTimeout(wait_loop, 100);
         loadColourImages();
     } else {
         guess_img = stitch_color(pokemon_image_list[answerTop], pokemon_image_list[answerBot], pokemon_color_image_list[answerTop], pokemon_color_image_list[answerBot]);
         console.log("showing result");
-        setTimeout(randomize_img, 1750);
+        setTimeout(randomize_img, 1400);
     }
 }
